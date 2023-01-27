@@ -14,13 +14,18 @@ setup(
     author='Antonio Bruno',
     author_email='antoniobruno82@gmail.com',
     url='https://inspector.dev/',
+    install_requires=[
+        'Django>=3',
+        'inspector-python'
+    ],
     project_urls={
         'Documentation': 'https://docs.inspector.dev/guides/python/',
         'Source Code': 'https://github.com/inspector-apm/inspector-django',
         'Issue Tracker': 'https://github.com/inspector-apm/inspector-django/issues',
     },
     extras_require=dict(tests=['pytest']),
-    packages=find_packages(where="src"),
-    package_dir={"": "src"},
+    packages=find_packages(where="inspector_django"),
+    package_dir={"": "inspector_django"},
+    zip_safe=False,
     license='MIT'
 )
