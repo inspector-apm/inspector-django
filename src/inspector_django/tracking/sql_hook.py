@@ -1,4 +1,3 @@
-from time import time
 import json
 from django.utils.encoding import force_str
 import datetime
@@ -52,16 +51,12 @@ class SQLHook:
         def __query_call_execute(method, sql, params):
             nice_sql = sql.replace('"', '').replace(',', ', ')
             type_segment = connection._connections._settings['default']['ENGINE']
-            start_time = time()
             self._request.inspector_middleware.start_segment(type_segment, nice_sql[0:50])
             context = {self.NAME_OBJ_CONTEXT_DB: nice_sql}
             self._request.inspector_middleware.segment().add_context(self.NAME_CONTEXT_DB, context)
             try:
                 return method(sql, params)
             finally:
-                end_time = time()
-                duration = (end_time - start_time) * 1000
-                print('DURATION: ', duration)
                 self._request.inspector_middleware.segment().end()
                 _params = ""
                 try:

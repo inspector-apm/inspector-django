@@ -1,5 +1,6 @@
 from .lib import DjangoInspector
-from .middleware import SqlPrintingMiddleware, InspectorMiddleware
+from .middleware import InspectorMiddleware
+
 from django.core.handlers.wsgi import WSGIHandler
 from .tracking import SQLHook
 from .lib import GetFieldFromSettings
@@ -23,5 +24,6 @@ def sql_handler_wsgi(self, environ, start_response):
 
 app_settings = GetFieldFromSettings()
 monitoring_query_check = app_settings.get(SettingKeys.MONITORING_QUERY)
-if monitoring_query_check:
+monitoring_request_check = app_settings.get(SettingKeys.MONITORING_REQUEST)
+if monitoring_query_check and monitoring_request_check:
     WSGIHandler.__call__ = sql_handler_wsgi

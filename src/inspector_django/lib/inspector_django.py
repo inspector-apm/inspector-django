@@ -60,8 +60,10 @@ class DjangoInspector(Inspector):
         return request_transaction
 
     def add_context_response(self, response_data):
+        status_code = getattr(response_data, 'status_code', None)
         context_data = {
             'response': {
+                'status_code': status_code,
                 'template_name': response_data['template_name'] if 'template_name' in response_data else None,
                 'headers': response_data.headers,
                 'cookies': response_data.cookies
