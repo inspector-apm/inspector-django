@@ -24,8 +24,8 @@ setup(
         'Issue Tracker': 'https://github.com/inspector-apm/inspector-django/issues',
     },
     extras_require=dict(tests=['pytest']),
-    packages=find_packages(where="inspector_django"),
-    package_dir={"": "inspector_django"},
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     zip_safe=False,
     license='MIT'
 )

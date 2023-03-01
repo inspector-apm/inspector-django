@@ -11,9 +11,17 @@ class GetFieldFromSettings:
             "INSPECTOR_INGESTION_KEY",
             None
         ),
-        'curl_type': (
-            "CURL_TYPE",
+        'inspector_transport': (
+            "INSPECTOR_TRANSPORT",
             "async",
+        ),
+        'inspector_monitoring_query': (
+            "INSPECTOR_MONITORING_QUERY",
+            True,
+        ),
+        'inspector_monitoring_request': (
+            "INSPECTOR_MONITORING_REQUEST",
+            True,
         )
     }
 
