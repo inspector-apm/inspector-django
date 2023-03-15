@@ -9,7 +9,6 @@ try:
 except ImportError:
     PostgresJson = None
     STATUS_IN_TRANSACTION = None
-
 try:
     from django.db.backends.utils import CursorWrapper
 except ImportError:
@@ -24,12 +23,13 @@ class SQLHook:
     _request: None
     NAME_CONTEXT_DB = 'DB'
     NAME_OBJ_CONTEXT_DB = 'query'
+    CONNECTION_OBJ_CONTEXT_DB = 'connection'
+    PARAMS_OBJ_CONTEXT_DB = 'bindings'
 
     def __init__(self, request):
         self._request = request
 
     def install_sql_hook(self):
-
         try:
             real_connect = BaseDatabaseWrapper.connect
         except AttributeError:
@@ -49,20 +49,26 @@ class SQLHook:
                 return "(encoded string)"
 
         def __query_call_execute(method, sql, params):
-            nice_sql = sql.replace('"', '').replace(',', ', ')
-            type_segment = connection._connections._settings['default']['ENGINE']
-            self._request.inspector_middleware.start_segment(type_segment, nice_sql[0:50])
-            context = {self.NAME_OBJ_CONTEXT_DB: nice_sql}
-            self._request.inspector_middleware.segment().add_context(self.NAME_CONTEXT_DB, context)
             try:
+                if self._request.inspector_middleware.can_add_segments():
+                    nice_sql = sql.replace('"', '').replace(',', ', ')
+                    type_segment = connection._connections._settings['default']['ENGINE']
+                    self._request.inspector_middleware.start_segment(type_segment, nice_sql[0:50])
+                    context = {
+                        self.CONNECTION_OBJ_CONTEXT_DB: type_segment,
+                        self.NAME_OBJ_CONTEXT_DB: nice_sql,
+                        self.PARAMS_OBJ_CONTEXT_DB: params
+                    }
+                    self._request.inspector_middleware.segment().add_context(self.NAME_CONTEXT_DB, context)
                 return method(sql, params)
             finally:
-                self._request.inspector_middleware.segment().end()
-                _params = ""
-                try:
-                    _params = json.dumps(_decode(params))
-                except TypeError:
-                    pass
+                if self._request.inspector_middleware.can_add_segments():
+                    self._request.inspector_middleware.segment().end()
+                    _params = ""
+                    try:
+                        _params = json.dumps(_decode(params))
+                    except TypeError:
+                        pass
 
         def callproc(self, procname, params=None):
             return __query_call_execute(self.cursor.callproc, procname, params)

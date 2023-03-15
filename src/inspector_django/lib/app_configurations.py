@@ -22,6 +22,16 @@ class GetFieldFromSettings:
         'inspector_monitoring_request': (
             "INSPECTOR_MONITORING_REQUEST",
             True,
+        ),
+        'inspector_ignore_url': (
+            "INSPECTOR_IGNORE_URL",
+            [
+                'static*',
+                'media*'
+                'assets*',
+                'js*',
+                'css*',
+            ],
         )
     }
 

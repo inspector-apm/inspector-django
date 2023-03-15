@@ -2,18 +2,17 @@ from inspector import Inspector, Configuration
 from .app_configurations import GetFieldFromSettings
 from ..enums import SettingKeys
 from inspector.models.partials import HTTP, URL
-import json
-from datetime import datetime
-import time
+from django.urls import resolve
 
 
 class DjangoInspector(Inspector):
     NAME_RESPONSE_CONTEXT = 'response'
+    app_settings = None
 
     def __init__(self):
-        app_settings = GetFieldFromSettings()
-        ingestion_key = app_settings.get(SettingKeys.INGESTION_KEY)
-        curl_type = app_settings.get(SettingKeys.INSPECTOR_TRANSPORT)
+        self.app_settings = GetFieldFromSettings()
+        ingestion_key = self.app_settings.get(SettingKeys.INGESTION_KEY)
+        curl_type = self.app_settings.get(SettingKeys.INSPECTOR_TRANSPORT)
         configuration = Configuration(ingestion_key)
         configuration.set_transport(curl_type)
         super().__init__(configuration)
@@ -21,10 +20,16 @@ class DjangoInspector(Inspector):
     def __del__(self):
         super().__del__()
 
-    def set_name_transaction(self, request_data):
+    def get_name_transaction(self, request_data):
         if request_data.resolver_match is not None:
             name_transaction = "{} {}".format(request_data.method, request_data.resolver_match.route)
-            self.transaction().name = name_transaction
+        else:
+            current_route = resolve(request_data.path_info).route
+            name_transaction = "{} {}".format(request_data.method, current_route)
+        return name_transaction
+
+    def set_name_transaction(self, request_data):
+        self.transaction().name = self.get_name_transaction(request_data)
 
     def set_http_request(self, request_data):
         http = HTTP()
@@ -38,13 +43,6 @@ class DjangoInspector(Inspector):
         url.set_full(request_data.build_absolute_uri())
         http.set_url(url)
         self.transaction().set_http(http)
-
-    def set_status_response(self, code):
-        status_response = None
-        if code == 200 or code == 201:
-            status_response = 'success'
-        self.transaction().set_result(status_response)
-        return status_response
 
     def __get_request_transaction(self, request_data):
         request_transaction = {

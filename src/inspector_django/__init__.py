@@ -1,6 +1,6 @@
 from .lib import DjangoInspector
 from .middleware import InspectorMiddleware
-
+from .tracking import GuardTransaction
 from django.core.handlers.wsgi import WSGIHandler
 from .tracking import SQLHook
 from .lib import GetFieldFromSettings
@@ -9,8 +9,10 @@ from .enums import SettingKeys
 
 def sql_handler_wsgi(self, environ, start_response):
     request = self.request_class(environ)
-    sql_hook = SQLHook(request)
-    sql_hook.install_sql_hook()
+    guard_transaction = GuardTransaction()
+    if guard_transaction.check_monitoring_request_url(request):
+        sql_hook = SQLHook(request)
+        sql_hook.install_sql_hook()
     response = self.get_response(request)
     response._handler_class = self.__class__
     status = "%d %s" % (response.status_code, response.reason_phrase)
