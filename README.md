@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 
 ## Attach the middleware
 To monitor the incoming HTTP traffic you need to register the middleware. 
+
 We suggest to add the middleware at the top of the list:
 
 ```python
