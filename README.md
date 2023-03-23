@@ -68,7 +68,7 @@ This is the default array. You have to copy this property in your `settings.py` 
 and then add your custom entries. 
 
 ## Official documentation
-Checkout our [official documentation](https://docs.inspector.dev/guides/python) for more detailed tutorial.
+Checkout our [official documentation](https://docs.inspector.dev/guides/django) for more detailed tutorial.
 
 ## License
 This library is licensed under the [MIT](LICENSE) license.
