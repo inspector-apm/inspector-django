@@ -14,15 +14,36 @@ Install the latest version of the package from PyPI:
 pip install inspector-django
 ```
 
-## Get a new Ingestion Key
-You need an Ingestion Key to create an instance of the Inspector class.  
-You can obtain a key creating a new project in your [Inspector dashboard](https://app.inspector.dev).
-
-## Initialization
-Here's a code example of how Inspector is normally initialized in a Python script:
+## Configure the Ingestion Key
+In settings.py add the ingestion key of your project:
 
 ```python
+INSPECTOR_INGESTION_KEY = "xxxxxxxxx"
+```
 
+### Get a new Ingestion Key
+You can get a new key creating a new project in your [Inspector dashboard](https://app.inspector.dev).
+
+## Activate the module
+Add `inspector_django` to installed apps:
+```python
+INSTALLED_APPS = [
+    ....,
+ 	
+    'inspector_django',
+]
+```
+
+## Attach the middleware
+To monitor the incoming HTTP traffic you need to register the middleware. 
+We suggest to add the middleware at the top of the list:
+
+```python
+MIDDLEWARE = [
+	'inspector_django.InspectorMiddleware',
+	
+	....
+]
 ```
 
 ## Official documentation

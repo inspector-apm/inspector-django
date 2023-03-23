@@ -7,15 +7,15 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='inspector-django',
-    version='0.1.0',
+    version='0.1.1',
     description='Real-time Code Execution Monitoring of your Django applications.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    author='Antonio Bruno',
-    author_email='antoniobruno82@gmail.com',
+    author='Inspector',
+    author_email='support@inspector.dev',
     url='https://inspector.dev/',
     install_requires=[
-        'Django>=3',
+        'Django>=4',
         'inspector-python'
     ],
     project_urls={
