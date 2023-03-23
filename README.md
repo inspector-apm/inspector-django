@@ -8,7 +8,7 @@ Inspector is a Code Execution Monitoring tool to help developers find out techni
 - Django >= 3.x
 
 ## Install
-Install the latest version of the package from PyPI:
+Install the latest version of the package from [PyPI](https://pypi.org/project/inspector-django/):
 
 ```shell
 pip install inspector-django
