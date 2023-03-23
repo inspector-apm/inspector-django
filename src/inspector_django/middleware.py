@@ -24,12 +24,14 @@ class InspectorMiddleware(MiddlewareMixin):
     def process_request(self, request):
         request.inspector = DjangoInspector()
         request.inspector_middleware = DjangoInspector()
-        if self.monitoring_request_check and self.guard_transaction.check_monitoring_request_url(request):
+        if self.monitoring_request_check and self.guard_transaction.check_monitoring_request_url(
+                request) and self.should_recorded:
             name_transaction = request.inspector_middleware.get_name_transaction(request)
             request.inspector_middleware.start_transaction(name_transaction, self.TYPE_TRANSACTION)
 
     def process_response(self, request, response):
-        if self.monitoring_request_check and self.guard_transaction.check_monitoring_request_url(request):
+        if self.monitoring_request_check and self.guard_transaction.check_monitoring_request_url(
+                request) and self.should_recorded:
             request.inspector_middleware.set_http_request(request)
             request.inspector_middleware.add_context_response(response)
             status_code = getattr(response, self.__key_status_code, None)
@@ -40,3 +42,6 @@ class InspectorMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         if self.monitoring_request_check:
             request.inspector_middleware.report_exception(exception, True, True)
+
+    def should_recorded(self, request):
+        return True
