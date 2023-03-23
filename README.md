@@ -46,6 +46,26 @@ MIDDLEWARE = [
 ]
 ```
 
+## Ignore URLs
+It could be needed to exclude some parts of your application from your monitoring data. 
+It could be something that doesn't impact your user experience, or if you prefer to focus your attention 
+on a small part of your system.
+
+The `INSPECTOR_IGNORE_URL` also support wildcards:
+
+```python
+INSPECTOR_IGNORE_URL = [
+     'static*',
+     'media*'
+     'assets*',
+     'js*',
+     'css*',
+]
+```
+
+This is the default array. You have to copy this property in your `settings.py` file 
+and then add your custom entries. 
+
 ## Official documentation
 Checkout our [official documentation](https://docs.inspector.dev/guides/python) for more detailed tutorial.
 
