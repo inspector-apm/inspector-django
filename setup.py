@@ -19,7 +19,7 @@ setup(
         'inspector-python'
     ],
     project_urls={
-        'Documentation': 'https://docs.inspector.dev/guides/python/',
+        'Documentation': 'https://docs.inspector.dev/guides/django/',
         'Source Code': 'https://github.com/inspector-apm/inspector-django',
         'Issue Tracker': 'https://github.com/inspector-apm/inspector-django/issues',
     },
