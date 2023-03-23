@@ -15,7 +15,7 @@ setup(
     author_email='support@inspector.dev',
     url='https://inspector.dev/',
     install_requires=[
-        'Django>=4',
+        'Django>=3',
         'inspector-python'
     ],
     project_urls={

@@ -5,7 +5,7 @@ Inspector is a Code Execution Monitoring tool to help developers find out techni
 ## Requirements
 
 - Python >= 3.x
-- Django >= 4.x
+- Django >= 3.x
 
 ## Install
 Install the latest version of the package from PyPI:
