@@ -15,7 +15,7 @@ pip install inspector-django
 ```
 
 ## Configure the Ingestion Key
-In settings.py add the ingestion key of your project:
+In `settings.py` add the ingestion key of your project:
 
 ```python
 INSPECTOR_INGESTION_KEY = "xxxxxxxxx"
@@ -26,6 +26,7 @@ You can get a new key creating a new project in your [Inspector dashboard](https
 
 ## Activate the module
 Add `inspector_django` to installed apps:
+
 ```python
 INSTALLED_APPS = [
     ....,
@@ -34,7 +35,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-## Attach the middleware
+## Register the middleware
 To monitor the incoming HTTP traffic you need to register the middleware. 
 
 We suggest to add the middleware at the top of the list:
