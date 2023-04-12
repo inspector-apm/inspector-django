@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='inspector-django',
-    version='0.1.1',
+    version='0.1.2',
     description='Real-time Code Execution Monitoring of your Django applications.',
     long_description=long_description,
     long_description_content_type='text/markdown',
